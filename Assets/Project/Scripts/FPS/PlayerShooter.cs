@@ -6,10 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent (typeof(RaycastHandler))]
 public class PlayerShooter : MonoBehaviour
 {
-    public event Action<bool> OnAim;
-
-    [Header("Player camera")]
-    [SerializeField] private Camera _playerCam;
+    public event Action<bool> OnAim;    
 
     [Header("Shoot settings")]
     [SerializeField] private Transform _rifleShootPoint;
@@ -31,26 +28,15 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _decalSize = 0.1f;
 
 
-    private RaycastHandler _raycastHandler;
+    private RaycastHandler _raycastHandler;    
 
-    private Ray _screenCenter;
-    private RaycastHit _shootHit;
-
-    private Coroutine _shooterCoroutine;
-
-    private Vector3 _cameraForward;
+    private Coroutine _shooterCoroutine;    
 
     private bool _isAiming = false;
 
-    private void Update()
+    private void Awake()
     {
-        PlayerLook();
-    }
-
-    private void OnValidate()
-    {
-        if (_raycastHandler == null)
-            _raycastHandler = GetComponent<RaycastHandler>();
+        _raycastHandler = GetComponent<RaycastHandler>();
     }
 
     public void Aiming(InputAction.CallbackContext callbackContext)
@@ -81,8 +67,10 @@ public class PlayerShooter : MonoBehaviour
         if (callbackContext.started && !_isAiming)
         {
             Grenade newGrenade = Instantiate(_grenade, _throwPoint.position, Quaternion.identity);
-            Quaternion upperAngle = Quaternion.Euler(-_throwAngle, Vector3.zero.y, Vector3.zero.z);            
-            newGrenade.GrenadeInitialize(_throwPower, upperAngle * _cameraForward);
+            Quaternion upperAngle = Quaternion.Euler(-_throwAngle, Vector3.zero.y, Vector3.zero.z);
+            Vector3 throwDirection = _raycastHandler.CameraTramsform.rotation * upperAngle * Vector3.forward;
+
+            newGrenade.GrenadeInitialize(_throwPower, throwDirection);
         }
     }
 
@@ -92,35 +80,26 @@ public class PlayerShooter : MonoBehaviour
         OnAim?.Invoke(_isAiming);
     }
 
-    private void PlayerLook()
-    {
-        _screenCenter = _playerCam.ScreenPointToRay(new Vector3( Screen.width / 2, Screen.height / 2, 0));
-        Debug.DrawRay(_screenCenter.origin, _screenCenter.direction * _shootDistance, Color.blue);
-
-        _cameraForward = _playerCam.transform.forward;
-    }
-
     private IEnumerator Shooting()
     {
         while (true)
         {
             _muzzleParticles.Play();
 
-            Bullet bullet = Instantiate(_bullet, _rifleShootPoint.position, Quaternion.LookRotation(-_cameraForward));
-            bullet.BulletInitialize(_bulletPower, _cameraForward);
+            Bullet bullet = Instantiate(_bullet, _rifleShootPoint.position, Quaternion.LookRotation(-_raycastHandler.CameraTramsform.forward));
+            bullet.BulletInitialize(_bulletPower, _raycastHandler.CameraTramsform.forward);
 
-            if (Physics.Raycast(_screenCenter, out _shootHit, _shootDistance))
+            RaycastHit shootHit = _raycastHandler.ShooterHit;           
+
+            if (shootHit.collider != null)
             {
-                if (_shootHit.collider != null)
-                {
-                    CreateBulletHole(_shootHit);
-                }
+                CreateBulletHole(shootHit);
 
-                if (_shootHit.collider.TryGetComponent<IDestructable>(out var destructable))
+                if (shootHit.collider.TryGetComponent<IDestructable>(out var destructable))
                     destructable.Destroy();
                 else
                     yield return null;
-            }
+            }            
 
             yield return new WaitForSeconds(_rifleShootCD);
         }

@@ -11,11 +11,9 @@ public class RaycastHandler : MonoBehaviour
 
     public RaycastHit ShooterHit {  get; private set; }
     public RaycastHit InteractionHit { get; private set; }
-    public Vector3 CameraForward { get; private set; }
+    public Transform CameraTramsform => _playerCam.transform;
 
-    private Ray _playerLook;
-
-    private Vector3 _cameraForward;
+    private Ray _playerLook;    
 
     private void Awake()
     {
@@ -32,5 +30,20 @@ public class RaycastHandler : MonoBehaviour
     {
         _playerLook = _playerCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         Debug.DrawRay(_playerLook.origin, _playerLook.direction * _shootDistance, Color.green);
+        
+        if (Physics.Raycast(_playerLook, out RaycastHit hit, _shootDistance))
+        {
+            ShooterHit = hit;
+
+            if (hit.distance <= _interactionDistance)
+                InteractionHit = hit;
+            else
+                InteractionHit = new RaycastHit();
+        }
+        else
+        {
+            ShooterHit = new RaycastHit();
+            InteractionHit = new RaycastHit();
+        }
     }
 }

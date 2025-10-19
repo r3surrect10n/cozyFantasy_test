@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8949704625245647606}
   - component: {fileID: 9177364070120953732}
   - component: {fileID: 9137482202312805771}
-  - component: {fileID: 2669559811048991897}
   - component: {fileID: 2435878558535472722}
   - component: {fileID: -7462534268621777981}
+  - component: {fileID: 2669559811048991897}
   m_Layer: 8
   m_Name: 7.62x51_Bullet_prefab
   m_TagString: Untagged
@@ -89,18 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2669559811048991897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4440924034055739044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f6c135cf31a81419033842ea585102, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &2435878558535472722
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -151,3 +139,15 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &2669559811048991897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4440924034055739044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f6c135cf31a81419033842ea585102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

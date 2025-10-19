@@ -40,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        _characterController = GetComponent<CharacterController>();
+        _playerShooter = GetComponent<PlayerShooter>();
+
         _movementSpeed = _defaultMovementSpeed;
 
         _playerCam.fieldOfView = _defaultFov;        
@@ -60,16 +63,7 @@ public class PlayerMovement : MonoBehaviour
         MovementHandler();
         LookHandler();
         GravityHandler();        
-    }
-
-    private void OnValidate()
-    {
-        if (_characterController == null) 
-            _characterController = GetComponent<CharacterController>();
-
-        if (_playerShooter == null)
-            _playerShooter = GetComponent<PlayerShooter>();
-    }
+    }    
 
     public void Move(InputAction.CallbackContext callbackContext)
     {
@@ -145,7 +139,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void AimState(float fov)
     {
-        _isAiming = !_isAiming;
+        _isAiming = !_isAiming;        
+
         _playerCam.fieldOfView = fov;
         _weaponCam.fieldOfView = fov;
     }
