@@ -31,10 +31,11 @@ public class Riffle : MonoBehaviour, IShootable
         {
             _muzzleParticles.Play();
 
-            Bullet bullet = Instantiate(_bullet, _riffleShootPoint.position, Quaternion.LookRotation(-raycastHandler.CameraTransform.forward));
-            bullet.BulletInitialize(_bulletPower, raycastHandler.CameraTransform.forward);
-
             RaycastHit shootHit = raycastHandler.ShooterHit;
+
+            Bullet bullet = Instantiate(_bullet, _riffleShootPoint.position, Quaternion.LookRotation(-raycastHandler.CameraTransform.forward));
+            bullet.BulletInitialize(_bulletPower, raycastHandler.CameraTransform.forward, shootHit);
+
 
             if (shootHit.collider != null)
             {

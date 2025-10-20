@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _decalSize = 0.3f;
 
     private Rigidbody _rb;
+    private RaycastHit _bulletHit;
 
     private float _bulletLifetime = 5f;
 
@@ -35,8 +36,9 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
     
-    public void BulletInitialize(float firePower, Vector3 direction)
+    public void BulletInitialize(float firePower, Vector3 direction, RaycastHit hit)
     {
+        _bulletHit = hit;
         _rb.linearVelocity = direction.normalized * firePower;        
     }    
 }
