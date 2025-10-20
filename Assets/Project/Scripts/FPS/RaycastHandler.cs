@@ -11,7 +11,7 @@ public class RaycastHandler : MonoBehaviour
 
     public RaycastHit ShooterHit {  get; private set; }
     public RaycastHit InteractionHit { get; private set; }
-    public Transform CameraTramsform => _playerCam.transform;
+    public Transform CameraTransform => _playerCam.transform;
 
     private Ray _playerLook;    
 
