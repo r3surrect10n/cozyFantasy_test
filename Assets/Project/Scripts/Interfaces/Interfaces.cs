@@ -1,6 +1,6 @@
-public interface IDestructable
+public interface IDamagable
 {
-    void Destroy();
+    void ApplyDamage(float damageAmount);
 }
 
 public interface IInteractable

@@ -1,20 +1,17 @@
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
-{
-    [Header("Bullet impact settings")]
-    [SerializeField] private GameObject _holeDecal;
-    [SerializeField, Range(0, 15)] private float _decalLifetime = 10f;
-    [SerializeField, Range(0, 1)] private float _decalSize = 0.3f;
-
+{  
     private Rigidbody _rb;
-    private RaycastHit _bulletHit;
+    private BulletHoleHandler _bulletHole;
 
     private float _bulletLifetime = 5f;
+    private float _damage;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _bulletHole = GetComponent<BulletHoleHandler>();
         Destroy(gameObject, _bulletLifetime);
     }    
 
@@ -23,22 +20,17 @@ public class Bullet : MonoBehaviour
         _rb.isKinematic = true;
 
         ContactPoint contact = collision.contacts[0];
-        Vector3 decalPosition = contact.point;
-        Quaternion decalRotation = Quaternion.LookRotation(contact.normal);
-        
-        GameObject decal = Instantiate(_holeDecal, decalPosition, decalRotation);
+        _bulletHole.CreateBulletHole(contact.point, contact.normal, collision.transform);
 
-        decal.transform.localScale = Vector3.one * _decalSize;
-        decal.transform.parent = collision.transform;
-
-        Destroy(decal, _decalLifetime);
+        if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+            damagable.ApplyDamage(_damage);
 
         Destroy(gameObject);
     }
     
-    public void BulletInitialize(float firePower, Vector3 direction, RaycastHit hit)
-    {
-        _bulletHit = hit;
+    public void BulletInitialize(float firePower, Vector3 direction, float bulletDamage)
+    {        
         _rb.linearVelocity = direction.normalized * firePower;        
+        _damage = bulletDamage;
     }    
 }

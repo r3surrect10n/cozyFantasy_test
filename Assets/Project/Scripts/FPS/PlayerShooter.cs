@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent (typeof(RaycastHandler))]
+[RequireComponent (typeof(PlayerInventory))]
 public class PlayerShooter : MonoBehaviour
 {
     public event Action<bool> OnAim;    
@@ -15,13 +16,15 @@ public class PlayerShooter : MonoBehaviour
 
     private IShootable _shooter;
 
-    private RaycastHandler _raycastHandler;        
+    private RaycastHandler _raycastHandler;
+    private PlayerInventory _playerInventory;
 
     private bool _isAiming = false;
 
     private void Awake()
     {
         _raycastHandler = GetComponent<RaycastHandler>();
+        _playerInventory = GetComponent<PlayerInventory>();
     }
 
     public void Aiming(InputAction.CallbackContext callbackContext)
@@ -38,23 +41,29 @@ public class PlayerShooter : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started && GetComponentInChildren<IShootable>() != null)
+        if (GetComponentInChildren<IShootable>() != null)
         {
-            _shooter = GetComponentInChildren<IShootable>();
-            _shooter.Shoot(_raycastHandler);            
+            if (callbackContext.started && _playerInventory.HaveItem(ItemType.Ammo, out int count) && count > 0)
+            {
+                _shooter = GetComponentInChildren<IShootable>();
+                _shooter.Shoot(_raycastHandler);
+            }
+            else if (callbackContext.canceled)
+            {
+                _shooter.StopShooting();
+                _shooter = null;
+            }
         }
-
-        if (callbackContext.canceled)
-        {
-            _shooter.StopShooting();
-            _shooter = null;
-        }
+        else
+            return;
     }
 
     public void Grenade(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started && !_isAiming)
+        if (callbackContext.started && !_isAiming && _playerInventory.HaveItem(ItemType.Grenade, out int count) && count > 0)
         {
+            _playerInventory.RemoveInventoryItem(ItemType.Grenade, 1);
+
             Grenade newGrenade = Instantiate(_grenade, _throwPoint.position, Quaternion.identity);
             Quaternion upperAngle = Quaternion.Euler(-_throwAngle, Vector3.zero.y, Vector3.zero.z);
             Vector3 throwDirection = _raycastHandler.CameraTransform.rotation * upperAngle * Vector3.forward;

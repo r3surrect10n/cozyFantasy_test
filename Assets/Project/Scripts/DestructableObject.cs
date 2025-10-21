@@ -1,21 +1,33 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Health))]
 public class DestructableObject : MonoBehaviour
-{    
-    private MeshRenderer _meshRenderer;
+{
+    private Health _health;    
 
     private void Awake()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();       
+        _health = GetComponent<Health>();               
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnEnable()
     {
-        if (collision.gameObject.GetComponent<Bullet>() != null)
-        {
-            
-            _meshRenderer.enabled = false;
-            Destroy(gameObject);
-        }
+        _health.OnDestruct += DestroyObject;
+    }
+
+    private void OnDisable()
+    {
+        _health.OnDestruct -= DestroyObject;
+    }
+
+    private void OnValidate()
+    {
+        if (_health == null) 
+            _health = GetComponent<Health>();
+    }
+
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 }
