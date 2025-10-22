@@ -4,6 +4,8 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] private ItemType _gunType;
 
+    public ItemType GunType => _gunType;
+
     private PlayerInventory _inventory;
 
     private Vector3 _targetPoint;

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
 
 [RequireComponent (typeof(RaycastHandler))]
 [RequireComponent (typeof(PlayerInventory))]
@@ -29,7 +28,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (_raycastHandler.InteractionHit.collider.TryGetComponent<PickUpItem>(out var item))
             {
-                _playerInventory.AddInventoryItem(item.type, item.count);
+                _playerInventory.AddInventoryItem(item.Type, item.Icon, item.Count);
+                Destroy(item);
             }
         }
     }

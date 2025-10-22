@@ -188,12 +188,12 @@ GameObject:
   - component: {fileID: 33845608}
   - component: {fileID: 33845607}
   m_Layer: 5
-  m_Name: Pistol
+  m_Name: PistolImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &33845606
 RectTransform:
   m_ObjectHideFlags: 0
@@ -523,6 +523,7 @@ GameObject:
   - component: {fileID: 205324291}
   - component: {fileID: 205324290}
   - component: {fileID: 205324289}
+  - component: {fileID: 205324292}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -591,6 +592,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &205324292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205324288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3261f91f5e770640bf84452c74f0e2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weapons:
+  - weaponType: 2
+    weaponImage: {fileID: 0}
+  _resources: []
 --- !u!1 &218307256
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,12 +620,12 @@ GameObject:
   - component: {fileID: 218307259}
   - component: {fileID: 218307258}
   m_Layer: 5
-  m_Name: Rifle
+  m_Name: RifleImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &218307257
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1216,8 +1233,8 @@ GameObject:
   - component: {fileID: 438385774}
   - component: {fileID: 438385773}
   - component: {fileID: 438385772}
-  - component: {fileID: 438385775}
   - component: {fileID: 438385776}
+  - component: {fileID: 438385775}
   m_Layer: 0
   m_Name: pistol1
   m_TagString: Untagged
@@ -1306,6 +1323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  icon: {fileID: 21300000, guid: beeec7647e10351478dca8f01a394fad, type: 3}
   count: 1
 --- !u!64 &438385776
 MeshCollider:
@@ -4426,8 +4444,8 @@ GameObject:
   - component: {fileID: 1522782927}
   - component: {fileID: 1522782926}
   - component: {fileID: 1522782925}
-  - component: {fileID: 1522782924}
   - component: {fileID: 1522782928}
+  - component: {fileID: 1522782924}
   m_Layer: 0
   m_Name: Frag_Granade
   m_TagString: Untagged
@@ -4448,6 +4466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
+  icon: {fileID: 21300000, guid: efafebe386efa2a459f9129edc61b9e4, type: 3}
   count: 3
 --- !u!23 &1522782925
 MeshRenderer:
@@ -4707,7 +4726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1634520080
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4846,7 +4865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1654227088
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10729,6 +10748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
+  icon: {fileID: 21300000, guid: 327811039f4dd8f4eb895fd3e339942f, type: 3}
   count: 1
 --- !u!1001 &1965322471
 PrefabInstance:
@@ -10966,6 +10986,7 @@ GameObject:
   - component: {fileID: 1975697147}
   - component: {fileID: 1975697146}
   - component: {fileID: 1975697145}
+  - component: {fileID: 1975697148}
   - component: {fileID: 1975697144}
   m_Layer: 0
   m_Name: 7.62x51_Bullet
@@ -10987,6 +11008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
+  icon: {fileID: 21300000, guid: b1c4f1b78c12d7d489515f8aa8803508, type: 3}
   count: 30
 --- !u!23 &1975697145
 MeshRenderer:
@@ -11056,6 +11078,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1975697148
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975697143}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6930164404111846501, guid: 103b89bf599bf4844990447bba2b460f, type: 3}
 --- !u!4 &1976881476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8587048437761923911, guid: ac006f1c9321c054e96f86dee52dc183, type: 3}
@@ -11915,13 +11959,13 @@ MonoBehaviour:
     m_ActionName: 'Player/Throw[/Keyboard/g]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 2140557559}
+        m_TargetAssemblyTypeName: PlayerInventory, Assembly-CSharp
+        m_MethodName: Hotbar
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -20901,7 +20945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7510912964391813940
 Transform:
   m_ObjectHideFlags: 0
