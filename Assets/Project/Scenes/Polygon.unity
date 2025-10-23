@@ -605,22 +605,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weapons:
   - weaponType: 2
-    panel: {fileID: 750959430}
     weaponImage: {fileID: 218307258}
     selectedOutline: {fileID: 788124679}
   - weaponType: 1
-    panel: {fileID: 1244340369}
     weaponImage: {fileID: 33845607}
     selectedOutline: {fileID: 512388930}
   _resources:
-  - itemType: 3
-    panel: {fileID: 1654227087}
-    itemImage: {fileID: 1965591686}
-    count: {fileID: 742168032}
   - itemType: 4
-    panel: {fileID: 1634520079}
     itemImage: {fileID: 2087744729}
     count: {fileID: 2054587327}
+  - itemType: 3
+    itemImage: {fileID: 1965591686}
+    count: {fileID: 742168032}
 --- !u!114 &205324293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4610,7 +4606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 3
-  _visiblePrefab: {fileID: 0}
+  _visiblePrefab: {fileID: 2743952917080061498, guid: 21dee39e8518c7044bf197ce0d114c2c, type: 3}
   _icon: {fileID: 21300000, guid: efafebe386efa2a459f9129edc61b9e4, type: 3}
   _count: 3
 --- !u!23 &1522782925
@@ -4874,7 +4870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.33333334}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5014,7 +5010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.34901962}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6192,7 +6188,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: efafebe386efa2a459f9129edc61b9e4, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6336,7 +6332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 4
-  _visiblePrefab: {fileID: 0}
+  _visiblePrefab: {fileID: 4440924034055739044, guid: 43e328bae3536a84eaca0891841b6f1d, type: 3}
   _icon: {fileID: 21300000, guid: b1c4f1b78c12d7d489515f8aa8803508, type: 3}
   _count: 30
 --- !u!23 &1975697145
@@ -6765,7 +6761,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b1c4f1b78c12d7d489515f8aa8803508, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

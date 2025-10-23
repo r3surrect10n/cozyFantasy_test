@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
+    [Header("Weapons UI")]
     [SerializeField] private List<WeaponSlot> _weapons = new List<WeaponSlot>();
-    [SerializeField] private List<ResourceSlot> _resources = new List<ResourceSlot>();
 
-    private ItemType _currentEquipped = ItemType.None;
+    [Header("Resources UI")]
+    [SerializeField] private List<ResourceSlot> _resources = new List<ResourceSlot>();
 
     private PlayerInventory _playerInventory;
 
@@ -30,13 +31,12 @@ public class InventoryUI : MonoBehaviour
         foreach (var weapon in _weapons)
         {
             bool hasWeapon = _playerInventory.HaveItem(weapon.weaponType, out _);
-            weapon.panel.SetActive(true);
             weapon.weaponImage.enabled = hasWeapon;
 
             if (hasWeapon && _playerInventory.ItemsData.TryGetValue(weapon.weaponType, out var data))
                 weapon.weaponImage.sprite = data.itemIcon;
 
-            weapon.selectedOutline.SetActive(weapon.weaponType == _currentEquipped);
+            weapon.selectedOutline.SetActive(_playerInventory.CurrentWeapon == weapon.weaponType);
         }
 
         foreach (var resource in _resources)
@@ -44,17 +44,18 @@ public class InventoryUI : MonoBehaviour
             _playerInventory.HaveItem(resource.itemType, out int count);
             resource.count.text = count.ToString();
 
-            if (count > 0 && !resource.panel.activeInHierarchy)
-                resource.panel.SetActive(true);
-
-            resource.itemImage.enabled = true;
+            if (count > 0 && _playerInventory.ItemsData.TryGetValue(resource.itemType, out var data))
+            {
+                resource.itemImage.sprite = data.itemIcon;
+                resource.itemImage.enabled = true;
+                resource.count.enabled = true;
+            }
+            else
+            {
+                resource.itemImage.enabled = false;
+                resource.count.enabled = false;
+            }
         }
-    }
-
-    public void SetEquippedWeapon(ItemType type)
-    {
-        _currentEquipped = type;
-        UpdateUI();
     }
 }
 
@@ -62,7 +63,6 @@ public class InventoryUI : MonoBehaviour
 public class WeaponSlot
 {
     public ItemType weaponType;
-    public GameObject panel;
     public Image weaponImage;
     public GameObject selectedOutline;
 }
@@ -71,7 +71,6 @@ public class WeaponSlot
 public class ResourceSlot
 {
     public ItemType itemType;
-    public GameObject panel;
     public Image itemImage;
     public Text count;
 }
