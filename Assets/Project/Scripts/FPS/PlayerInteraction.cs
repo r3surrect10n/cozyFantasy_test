@@ -34,10 +34,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (_lookCollider.TryGetComponent<PickUpItem>(out var item))
             {
-                _playerInventory.AddInventoryItem(item.Type, item.Prefab, item.Icon, item.Count);
-
-                if (item.Type == ItemType.Rifle || item.Type == ItemType.Pistol)
-                    Destroy(item.gameObject);
+                _playerInventory.AddInventoryItem(item.Type, item.Prefab, item.Icon, item.Count);                
+                Destroy(item.gameObject);
             }
         }
     }

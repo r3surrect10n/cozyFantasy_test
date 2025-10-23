@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof(Health))]
 public class DestructableObject : MonoBehaviour
 {
+    public event Action OnDestroy;
+
     private Health _health;    
 
     private void Awake()
@@ -28,6 +32,7 @@ public class DestructableObject : MonoBehaviour
 
     private void DestroyObject()
     {
+        OnDestroy?.Invoke();
         Destroy(gameObject);
-    }
+    }    
 }

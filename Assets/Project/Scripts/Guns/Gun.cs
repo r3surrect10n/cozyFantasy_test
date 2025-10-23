@@ -4,15 +4,20 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] private ItemType _gunType;
 
+    [Header("Sound settings")]
+    [SerializeField] private AudioClip _gunSound;
+
     public ItemType GunType => _gunType;
 
     private PlayerInventory _inventory;
+    private AudioSource _gunSoundSource;
 
     private Vector3 _targetPoint;
 
     private void Awake()
     {
         _inventory = GetComponentInParent<PlayerInventory>();
+        _gunSoundSource = GetComponentInParent<AudioSource>();
     }
 
     public void GunShot(ParticleSystem particles, RaycastHandler raycastHandler, Transform shootPoint, Bullet bulletType, float gunPower, float bulletPower, float bulletDamage)
@@ -21,6 +26,7 @@ public class Gun : MonoBehaviour
         {
             _inventory.RemoveInventoryItem(ItemType.Ammo, 1);
 
+            _gunSoundSource.PlayOneShot(_gunSound);
             particles.Play();
 
             RaycastHit shootHit = raycastHandler.ShooterHit;
