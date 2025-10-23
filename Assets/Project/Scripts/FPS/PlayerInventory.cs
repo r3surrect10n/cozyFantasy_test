@@ -5,26 +5,55 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public Action OnInventoryChanged;    
+    public Action OnInventoryChanged;
 
-    private Dictionary<ItemType, int> _inventory = new Dictionary<ItemType, int>();  
-    private Dictionary<ItemType, Sprite> _icons = new Dictionary<ItemType, Sprite>();
+    [Header("Item settings")]
+    [SerializeField] private Transform _gunsPoint;
+
+    public Dictionary<ItemType, ItemData> ItemsData => _itemData;
+    public ItemType CurrentWeapon => _equippedType;
+
+    private Dictionary<ItemType, int> _inventory = new Dictionary<ItemType, int>();
+    private Dictionary<ItemType, ItemData> _itemData = new Dictionary<ItemType, ItemData>();
+    private Dictionary<ItemType, GameObject> _spawnedGuns = new Dictionary<ItemType, GameObject>();
+
+    private GameObject _activeItem;
+    private ItemType _equippedType = ItemType.None;
 
     public void Hotbar(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
-            Equip(callbackContext.action.GetBindingIndexForControl(callbackContext.control));
+        if (!callbackContext.started)
+            return;
+
+        int chosenItem = callbackContext.action.GetBindingIndexForControl(callbackContext.control);
+
+        switch (chosenItem)
+        {
+            case 0:
+                Equip(ItemType.Rifle);
+                break;
+            case 1:
+                Equip(ItemType.Pistol);
+                break;
+        }
     }
 
-    public void AddInventoryItem(ItemType type, Sprite icon, int count)
+    public void AddInventoryItem(ItemType type, GameObject prefab, Sprite icon, int count)
     {
         if (_inventory.ContainsKey(type))
             _inventory[type] += count;
-        else        
+        else
             _inventory.Add(type, count);
 
-        if (icon != null && !_icons.ContainsKey(type))
-            _icons.Add(type, icon);
+        if (prefab != null && icon != null && !_itemData.ContainsKey(type))
+        {
+            ItemData data = new ItemData();
+            data.itemPrefab = prefab;
+            data.itemIcon = icon;
+
+            _itemData.Add(type, data);
+            Debug.Log($"{_itemData[type].itemPrefab}, {_itemData[type].itemIcon}");
+        }
 
         OnInventoryChanged?.Invoke();
     }
@@ -36,41 +65,45 @@ public class PlayerInventory : MonoBehaviour
 
         _inventory[type] -= count;
 
-        if (_inventory[type] <= 0 )
-            _inventory.Remove(type);            
+        if (_inventory[type] <= 0)
+            _inventory.Remove(type);
+
+        OnInventoryChanged?.Invoke();
     }
-    
+
     public bool HaveItem(ItemType type, out int count)
     {
         return _inventory.TryGetValue(type, out count);
     }
 
-    private void Equip(int slotIndex)
+    private void Equip(ItemType type)
     {
-        switch (slotIndex)
-        {
-            case 0:
-               
-                break;
-            case 1:
-               
-                break;
-        }
-    }
-
-    private void ActivateModel(ItemType type)
-    {
-        if (!_inventory.ContainsKey(type))
+        if (!_inventory.ContainsKey(type) || _equippedType == type)
             return;
 
-        switch (type)
+        if (_activeItem != null)
+            _activeItem.SetActive(false);
+
+        if (_spawnedGuns.TryGetValue(type, out GameObject existingGun))
         {
-            case ItemType.Rifle:
-                break;
-            case ItemType.Pistol:
-                break;
+            existingGun.SetActive(true);
+            _activeItem = existingGun;
         }
+        else if (_itemData.ContainsKey(type))
+        {
+            GameObject createdGun = Instantiate(_itemData[type].itemPrefab, _gunsPoint.position, _gunsPoint.rotation, _gunsPoint);
+            _spawnedGuns.Add(type, createdGun);
+            _activeItem = createdGun;
+        }       
+
+        _equippedType = type;
+        OnInventoryChanged?.Invoke();
     }
 }
 
-
+[Serializable]
+public class ItemData
+{
+    public GameObject itemPrefab;
+    public Sprite itemIcon;
+}

@@ -29,33 +29,29 @@ public class PlayerShooter : MonoBehaviour
 
     public void Aiming(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started && !_isAiming)
-        {
-            AimState();
-        }
-        else if (callbackContext.canceled && _isAiming)
-        {
-            AimState();
-        }
+        if (callbackContext.started && !_isAiming)        
+            AimState();        
+        else if (callbackContext.canceled && _isAiming)        
+            AimState();        
     }
 
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
-        if (GetComponentInChildren<IShootable>() != null)
-        {
-            if (callbackContext.started && _playerInventory.HaveItem(ItemType.Ammo, out int count) && count > 0)
-            {
-                _shooter = GetComponentInChildren<IShootable>();
-                _shooter.Shoot(_raycastHandler);
-            }
-            else if (callbackContext.canceled)
-            {
-                _shooter.StopShooting();
-                _shooter = null;
-            }
-        }
-        else
+        _shooter = GetComponentInChildren<IShootable>();
+
+        if (_shooter == null)
             return;
+
+        if (callbackContext.started && _playerInventory.HaveItem(ItemType.Ammo, out int count) && count > 0)
+        {
+            _shooter.Shoot(_raycastHandler);
+            Debug.Log("Shooting");
+        }  
+        else if (callbackContext.canceled)
+        {
+            _shooter.StopShooting();
+            _shooter = null;
+        }
     }
 
     public void Grenade(InputAction.CallbackContext callbackContext)

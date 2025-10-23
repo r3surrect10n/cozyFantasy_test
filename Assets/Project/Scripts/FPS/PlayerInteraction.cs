@@ -11,6 +11,9 @@ public class PlayerInteraction : MonoBehaviour
     private RaycastHandler _raycastHandler;
     private PlayerInventory _playerInventory;
 
+    private Collider _lookCollider;
+
+
     private void Awake()
     {
         _raycastHandler = GetComponent<RaycastHandler>();
@@ -23,20 +26,27 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     public void Interact(InputAction.CallbackContext callbackContext)
-    {
+    {        
+        if (_lookCollider == null)
+            return;
+
         if (callbackContext.started)
         {
-            if (_raycastHandler.InteractionHit.collider.TryGetComponent<PickUpItem>(out var item))
+            if (_lookCollider.TryGetComponent<PickUpItem>(out var item))
             {
-                _playerInventory.AddInventoryItem(item.Type, item.Icon, item.Count);
-                Destroy(item);
+                _playerInventory.AddInventoryItem(item.Type, item.Prefab, item.Icon, item.Count);
+
+                if (item.Type == ItemType.Rifle || item.Type == ItemType.Pistol)
+                    Destroy(item.gameObject);
             }
         }
     }
 
     private void ShowTip()
     {
-        if (_raycastHandler.InteractionHit.collider != null && _raycastHandler.InteractionHit.collider.TryGetComponent<PickUpItem>(out var item))
+        _lookCollider = _raycastHandler.InteractionHit.collider;
+
+        if (_lookCollider != null && _lookCollider.TryGetComponent<PickUpItem>(out var _))
         {
             _interactionTip.SetActive(true);            
         }

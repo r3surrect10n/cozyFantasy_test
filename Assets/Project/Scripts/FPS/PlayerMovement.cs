@@ -87,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_movementInput.magnitude > 0.1f)
         {
-            Vector3 direction = _movementInput.y * _playerCam.transform.forward + _movementInput.x * _playerCam.transform.right;
+            Vector3 direction = _movementInput.y * transform.forward + _movementInput.x * _playerCam.transform.right;
             direction.y = 0;
             direction.Normalize();
 
